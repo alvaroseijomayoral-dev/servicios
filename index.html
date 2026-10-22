@@ -183,7 +183,7 @@ fieldset{border:0;margin:0;padding:0;display:grid;gap:10px}
 }
 
 /* Reseñas */
-.t-opinion{background:var(--lavanda)}.t-correccion{background:var(--salvia)}.t-maquetacion,.t-ebook{background:var(--cielo)}.t-kdp{background:var(--marca)}
+.t-opinion{background:var(--lavanda)}.t-correccion{background:var(--salvia)}.t-maquetacion,.t-ebook{background:var(--cielo)}.t-kdp{background:var(--marca)}.t-propuesta{background:#F3D9C8}
 .etiquetas{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
 .etiqueta{font-family:var(--titulo);font-weight:500;font-size:.8rem;padding:4px 11px;border-radius:999px;color:var(--tinta)}
 .res{background:#fff;border-radius:12px;padding:28px 26px 22px;display:flex;flex-direction:column;gap:16px;position:relative}
@@ -265,10 +265,28 @@ details p a{color:var(--tinta)}
 .cierre .botones .btn.sec:hover{background:var(--tinta);color:var(--marca)}
 @media (max-width:980px){.proceso{grid-template-columns:1fr;gap:44px}}
 @media (max-width:640px){.formu{padding:28px 22px}.f-fila,.f-checks{grid-template-columns:1fr}}
+
+.cookies{position:fixed;left:16px;right:16px;bottom:16px;z-index:50;max-width:620px;margin:0 auto;background:#fff;color:var(--tinta);border-radius:16px;box-shadow:0 18px 50px rgba(20,23,31,.22);padding:20px 22px;display:flex;flex-wrap:wrap;gap:14px 18px;align-items:center;font-size:.98rem;line-height:1.5}
+.cookies[hidden]{display:none}
+.cookies p{margin:0;flex:1 1 280px}
+.cookies a{color:var(--tinta)}
+.cookies .acciones{display:flex;gap:10px;flex:0 0 auto}
+.cookies button{font-family:var(--titulo);font-weight:500;font-size:.98rem;padding:11px 22px;border-radius:999px;border:2px solid var(--tinta);background:#fff;color:var(--tinta);cursor:pointer}
+.cookies button.si{background:var(--tinta);color:#fff}
+.cookies button:hover{background:var(--tinta);color:#fff}
+footer .reabrir{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;text-decoration:underline}
 </style>
 <script>try{if(window.parent!==window)document.documentElement.classList.add('en-wix')}catch(e){document.documentElement.classList.add('en-wix')}</script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag("consent","default",{ad_storage:"denied",analytics_storage:"denied",ad_user_data:"denied",ad_personalization:"denied",wait_for_update:500});
+try{ if(localStorage.getItem("cookies-asm")==="si") gtag("consent","update",{ad_storage:"granted",analytics_storage:"granted",ad_user_data:"granted",ad_personalization:"granted"}); }catch(e){}
+</script>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-NLK5JZWT');</script>
 </head>
 <body>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NLK5JZWT" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <header class="hero">
   <div class="wrap">
@@ -531,6 +549,7 @@ details p a{color:var(--tinta)}
     <a href="https://www.alvaroseijomayoral.com/aviso-legal">Aviso legal</a>
     <a href="https://www.alvaroseijomayoral.com/privacidad">Privacidad</a>
     <a href="https://www.alvaroseijomayoral.com/cookies">Cookies</a>
+    <button type="button" class="reabrir" id="cookies-reabrir">Configurar cookies</button>
   </div>
 </footer>
 
@@ -713,6 +732,18 @@ const REVIEWS = [
   ]
  },
  {
+  "nombre": "Raúl de Miguel",
+  "libro": "El brillo escarlata",
+  "servicios": [
+   "opinion",
+   "propuesta"
+  ],
+  "extracto": "El resultado fue excelente. Álvaro me ayudó a perfeccionar la novela y a meter un pie en el mundo editorial con una gran propuesta.",
+  "completo": [
+   "Contraté los servicios de opinión crítica y propuesta editorial y el resultado fue excelente. Álvaro me ayudó a perfeccionar la novela y a meter un pie en el mundo editorial con una gran propuesta (¡gracias a eso ahora estoy trabajando con un agente y dando más pasitos hacia la publicación!)"
+  ]
+ },
+ {
   "nombre": "David Palop",
   "libro": "Ocean Wave",
   "servicios": [
@@ -773,7 +804,7 @@ const REVIEWS = [
   ]
  }
 ];
-const SERV_NOMBRE = {opinion:"Opinión crítica", correccion:"Corrección", maquetacion:"Maquetación", ebook:"Maquetación ebook", kdp:"Publicación en KDP"};
+const SERV_NOMBRE = {opinion:"Opinión crítica", correccion:"Corrección", maquetacion:"Maquetación", ebook:"Maquetación ebook", kdp:"Publicación en KDP", propuesta:"Propuesta editorial"};
 function crear(tag, clase, texto){ const e = document.createElement(tag); if(clase) e.className = clase; if(texto != null) e.textContent = texto; return e; }
 
 const popup = document.getElementById("popup");
@@ -814,7 +845,7 @@ function tarjeta(r){
 }
 
 (function(){
-  const GRUPOS = [["todas","Todas"],["opinion","Opinión crítica"],["correccion","Corrección"],["maquetacion","Maquetación"],["kdp","Publicación en KDP"]];
+  const GRUPOS = [["todas","Todas"],["opinion","Opinión crítica"],["correccion","Corrección"],["maquetacion","Maquetación"],["kdp","Publicación en KDP"],["propuesta","Propuesta editorial"]];
   const VISIBLES = 3;
   let filtro = "todas", mostrarTodo = false;
   const cont = document.getElementById("filtros"), rej = document.getElementById("rejilla"), mas = document.getElementById("masRes");
@@ -893,7 +924,7 @@ function tarjeta(r){
         window.parent.postMessage({tipo:"formulario-servicios", datos}, "*");
       });
       if(btn) btn.disabled = false;
-      if(resp){ f.reset(); ok.textContent = "Recibido. Te escribo pronto."; ok.hidden = false; }
+      if(resp){ dataLayer.push({event:"generar_lead"}); f.reset(); ok.textContent = "Recibido. Te escribo pronto."; ok.hidden = false; }
       else { err.textContent = "No se ha podido enviar. Escríbeme a " + CORREO + " y lo vemos por ahí."; err.hidden = false; }
       return;
     }
@@ -901,7 +932,7 @@ function tarjeta(r){
       try{
         const r = await fetch(FORM_ENDPOINT, {method:"POST", headers:{"Content-Type":"application/json", "Accept":"application/json"}, body: JSON.stringify(Object.assign({email: datos.correo, _subject: "Nueva consulta de servicios editoriales - " + datos.nombre}, datos))});
         if(!r.ok) throw new Error("HTTP " + r.status);
-        f.reset(); ok.textContent = "Recibido. Te escribo pronto."; ok.hidden = false;
+        dataLayer.push({event:"generar_lead"}); f.reset(); ok.textContent = "Recibido. Te escribo pronto."; ok.hidden = false;
       }catch(_){
         err.textContent = "No se ha podido enviar. Escríbeme a " + CORREO + " y lo vemos por ahí."; err.hidden = false;
       }
@@ -945,6 +976,32 @@ document.querySelectorAll("a[data-serv]").forEach(a => a.addEventListener("click
   });
   document.addEventListener("keydown", e => { if(e.key === "Escape") cerrar(); });
   document.addEventListener("click", e => { if(!m.contains(e.target) && !b.contains(e.target)) cerrar(); });
+})();
+</script>
+<div class="cookies" id="cookies" role="dialog" aria-label="Aviso de cookies" hidden>
+  <p>Uso cookies para medir cuánta gente visita esta página y mejorarla. Puedes aceptarlas o rechazarlas, sin consecuencias. Más información en la <a href="https://www.alvaroseijomayoral.com/cookies">política de cookies</a>.</p>
+  <div class="acciones"><button type="button" id="cookies-no">Rechazar</button><button type="button" class="si" id="cookies-si">Aceptar</button></div>
+</div>
+<script>
+(function(){
+  const caja = document.getElementById("cookies");
+  let guardado = null;
+  try{ guardado = localStorage.getItem("cookies-asm"); }catch(e){}
+  if(!guardado) caja.hidden = false;
+  function elegir(si){
+    try{ localStorage.setItem("cookies-asm", si ? "si" : "no"); }catch(e){}
+    const v = si ? "granted" : "denied";
+    gtag("consent","update",{ad_storage:v,analytics_storage:v,ad_user_data:v,ad_personalization:v});
+    dataLayer.push({event: si ? "cookies_aceptadas" : "cookies_rechazadas"});
+    caja.hidden = true;
+  }
+  document.getElementById("cookies-si").addEventListener("click", () => elegir(true));
+  document.getElementById("cookies-no").addEventListener("click", () => elegir(false));
+  document.getElementById("cookies-reabrir").addEventListener("click", () => { caja.hidden = false; });
+  /* Eventos para medir: clic en "Pedir presupuesto" y envío del formulario */
+  document.querySelectorAll("a[data-serv]").forEach(a => a.addEventListener("click", () => dataLayer.push({event:"pedir_presupuesto", servicio:a.dataset.serv})));
+  const env = document.getElementById("enviar");
+  if(env) env.addEventListener("click", () => dataLayer.push({event:"enviar_presupuesto_calculadora"}));
 })();
 </script>
 </body>
