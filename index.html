@@ -34,7 +34,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-/* Dentro de Wix el recuadro tiene altura fija: el sobrante se ve como continuación del pie amarillo */
+
 html.en-wix{background:var(--marca);scroll-behavior:auto}
 html.en-wix dialog.popup{position:absolute;margin:0 auto;left:0;right:0;max-height:none}
 body{margin:0;background:var(--nieve);color:var(--tinta);font-family:var(--texto);font-size:19px;line-height:1.6}
@@ -182,7 +182,6 @@ fieldset{border:0;margin:0;padding:0;display:grid;gap:10px}
   .btn,summary::after{transition:none}
 }
 
-/* Reseñas */
 .t-opinion{background:var(--lavanda)}.t-correccion{background:var(--salvia)}.t-maquetacion,.t-ebook{background:var(--cielo)}.t-kdp{background:var(--marca)}.t-propuesta{background:#F3D9C8}
 .etiquetas{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
 .etiqueta{font-family:var(--titulo);font-weight:500;font-size:.8rem;padding:4px 11px;border-radius:999px;color:var(--tinta)}
@@ -225,7 +224,6 @@ body.sin-scroll{overflow:hidden}
 @media (max-width:640px){.rejilla{grid-template-columns:1fr}.popup-cab{padding:26px 24px 16px}.popup-cuerpo{padding:4px 24px 28px}dialog.popup{width:94vw;max-height:90vh}}
 @media (prefers-reduced-motion:reduce){dialog.popup[open]{animation:none}}
 
-/* v8: proceso + formulario, botones */
 .proceso{display:grid;grid-template-columns:1fr 1.15fr;gap:64px;align-items:start}
 .proceso h2{max-width:none}
 .paso-lista{list-style:none;margin:0;padding:0;counter-reset:paso;display:grid;gap:0}
@@ -557,9 +555,6 @@ try{ if(localStorage.getItem("cookies-asm")==="si") gtag("consent","update",{ad_
 (function(){
   const CORREO = "alvaroseijomayoral@gmail.com";
 
-  /* PRECIOS CON IVA. Cada lista tiene 40 precios, uno por tramo de palabras, en este orden:
-     hasta 25.000 / 25.000-35.000 / 35.000-45.000 ... 385.000-395.000 / 395.000-400.000 / más de 400.000.
-     Van de 5 en 5, así que cada línea es un grupo de 5 tramos. Para cambiar un precio, cambia el número (con punto decimal). */
   const TARIFAS = {
   opinion: [
     121, 170.01, 210, 250, 290,
@@ -635,7 +630,6 @@ try{ if(localStorage.getItem("cookies-asm")==="si") gtag("consent","update",{ad_
   const extra = document.getElementById("extra");
   const enviar = document.getElementById("enviar");
 
-  /* Tramo: 0 = hasta 25.000; 1 = 25.000-35.000 ... 37 = 385.000-395.000; 38 = 395.000-400.000; 39 = más de 400.000 */
   function tramo(p){
     if(p <= 25000) return 0;
     if(p <= 400000) return Math.min(38, Math.ceil((p - 25000) / 10000));
@@ -818,7 +812,7 @@ function abrirPopup(r, boton){
   cuerpo.scrollTop = 0;
   const enWix = document.documentElement.classList.contains("en-wix");
   if(enWix && boton){
-    /* En Wix el recuadro mide miles de px: se coloca la ventana a la altura del botón pulsado */
+
     const y = boton.getBoundingClientRect().top + window.scrollY;
     popup.style.top = Math.max(0, y - 120) + "px";
   }
@@ -827,7 +821,7 @@ function abrirPopup(r, boton){
 }
 function cerrarPopup(){ popup.close(); }
 popup.addEventListener("close", () => { document.body.classList.remove("sin-scroll"); if(origen) origen.focus(); });
-popup.addEventListener("click", e => { if(e.target === popup) cerrarPopup(); });   /* clic fuera de la ventana */
+popup.addEventListener("click", e => { if(e.target === popup) cerrarPopup(); });
 document.getElementById("popup-cerrar").addEventListener("click", cerrarPopup);
 
 function tarjeta(r){
@@ -867,7 +861,7 @@ function tarjeta(r){
   mas.addEventListener("click", () => {
     mostrarTodo = !mostrarTodo;
     pintar();
-    if(!mostrarTodo){                               /* al encoger, vuelve al principio de las reseñas para no perderse */
+    if(!mostrarTodo){
       const cab = document.getElementById("opiniones");
       if(cab.getBoundingClientRect().top < 0) cab.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start"});
     }
@@ -880,8 +874,7 @@ function tarjeta(r){
 <script>
 (function(){
   const CORREO = "alvaroseijomayoral@gmail.com";
-  /* Dentro de Wix el formulario envía los datos por postMessage a la página (Velo).
-     Fuera de Wix: si FORM_ENDPOINT está vacío se abre el correo con el mensaje preparado. */
+
   const FORM_ENDPOINT = "https://formspree.io/f/xdeenpdk";
   const NOMBRES = {opinion:"Opinión crítica", correccion:"Corrección", maquetacion:"Maquetación", ebook:"Maquetación ebook", kdp:"Publicación en KDP", propuesta:"Propuesta editorial"};
   const f = document.getElementById("form-contacto"), err = document.getElementById("f-error"), ok = document.getElementById("f-ok");
@@ -911,7 +904,7 @@ function tarjeta(r){
 
     const enWix = !FORM_ENDPOINT && window.parent !== window;
     if(enWix){
-      /* Dentro de Wix: se pasan los datos a la página (Velo), que los guarda y avisa */
+
       const btn = f.querySelector('button[type="submit"]'); if(btn) btn.disabled = true;
       const resp = await new Promise(res => {
         const t = setTimeout(() => { window.removeEventListener("message", h); res(false); }, 10000);
@@ -959,7 +952,7 @@ function tarjeta(r){
 </script>
 
 <script>
-/* "Pedir presupuesto" de cada tarjeta: lleva al formulario y marca ese servicio */
+
 document.querySelectorAll("a[data-serv]").forEach(a => a.addEventListener("click", () => {
   const c = document.querySelector('#form-contacto input[name="servicios"][value="' + a.dataset.serv + '"]');
   if(c) c.checked = true;
@@ -998,7 +991,7 @@ document.querySelectorAll("a[data-serv]").forEach(a => a.addEventListener("click
   document.getElementById("cookies-si").addEventListener("click", () => elegir(true));
   document.getElementById("cookies-no").addEventListener("click", () => elegir(false));
   document.getElementById("cookies-reabrir").addEventListener("click", () => { caja.hidden = false; });
-  /* Eventos para medir: clic en "Pedir presupuesto" y envío del formulario */
+
   document.querySelectorAll("a[data-serv]").forEach(a => a.addEventListener("click", () => dataLayer.push({event:"pedir_presupuesto", servicio:a.dataset.serv})));
   const env = document.getElementById("enviar");
   if(env) env.addEventListener("click", () => dataLayer.push({event:"enviar_presupuesto_calculadora"}));
