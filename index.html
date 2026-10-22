@@ -49,8 +49,27 @@ a{color:inherit}
 .btn{display:inline-block;background:var(--tinta);color:#fff;font-family:var(--titulo);font-weight:500;font-size:1.05rem;text-decoration:none;padding:16px 30px;border-radius:999px;transition:background .2s}
 .btn:hover{background:var(--abeto)}
 
-.top{display:flex;justify-content:space-between;align-items:center;padding:24px 0;font-family:var(--titulo);font-weight:500}
-.top a{text-decoration:none;border-bottom:2px solid var(--marca)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:22px 0;font-family:var(--titulo);font-weight:500;position:relative}
+.top a{text-decoration:none}
+.top .marca{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:-.01em;font-size:1.1rem;white-space:nowrap}
+.top .marca img{width:40px;height:40px;border-radius:50%;display:block}
+.top nav{display:flex;align-items:center;gap:clamp(14px,2.2vw,30px);font-size:1rem}
+.top nav a{padding:4px 0;border-bottom:2px solid transparent;transition:border-color .2s}
+.top nav a:hover{border-bottom-color:var(--linea)}
+.top nav a[aria-current="page"]{border-bottom-color:var(--marca)}
+.burger{display:none;background:none;border:0;padding:10px;margin:-10px;cursor:pointer;flex-direction:column;gap:5px}
+.burger span{display:block;width:24px;height:2px;background:var(--tinta);transition:transform .2s,opacity .2s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (max-width:900px){
+  .burger{display:flex}
+  .top nav{display:none;position:absolute;top:100%;left:0;right:0;z-index:20;flex-direction:column;align-items:stretch;gap:0;background:#fff;border-radius:14px;box-shadow:0 18px 40px rgba(20,23,31,.14);padding:8px 20px}
+  .top nav.abierto{display:flex}
+  .top nav a{padding:14px 0;border-bottom:1px solid var(--linea)}
+  .top nav a:last-child{border-bottom:0}
+  .top nav a[aria-current="page"]{border-bottom-color:var(--linea);font-weight:800}
+}
 .hero{overflow:hidden;padding-bottom:84px}
 .hero-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:48px;align-items:center;padding-top:36px}
 .lead{margin:28px 0 36px;max-width:31em;color:var(--pizarra);font-size:1.2rem}
@@ -254,8 +273,17 @@ details p a{color:var(--tinta)}
 <header class="hero">
   <div class="wrap">
     <div class="top">
-      <span>Álvaro Seijo Mayoral</span>
-      <a href="mailto:alvaroseijomayoral@gmail.com?subject=Servicios%20editoriales">Escríbeme</a>
+      <a class="marca" href="https://www.alvaroseijomayoral.com"><img src="/favicon-192.png" alt="" width="40" height="40"><span>Álvaro Seijo Mayoral</span></a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="menu-principal" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+      <nav id="menu-principal" aria-label="Principal">
+        <a href="https://www.alvaroseijomayoral.com">Inicio</a>
+        <a href="https://www.alvaroseijomayoral.com/proyectos">Mis libros</a>
+        <a href="https://www.alvaroseijomayoral.com/cursos">Cursos</a>
+        <a href="/" aria-current="page">Servicios</a>
+        <a href="https://www.alvaroseijomayoral.com/mis-redes">Mis redes</a>
+        <a href="https://www.alvaroseijomayoral.com/recursos">Recursos</a>
+        <a href="https://www.alvaroseijomayoral.com/contacto">Contacto</a>
+      </nav>
     </div>
     <div class="hero-grid">
       <div>
@@ -906,6 +934,18 @@ document.querySelectorAll("a[data-serv]").forEach(a => a.addEventListener("click
   if(c) c.checked = true;
 }));
 </script>
+<script>
+(function(){
+  const b = document.querySelector(".burger"), m = document.getElementById("menu-principal");
+  if(!b || !m) return;
+  function cerrar(){ m.classList.remove("abierto"); b.setAttribute("aria-expanded","false"); b.setAttribute("aria-label","Abrir menú"); }
+  b.addEventListener("click", () => {
+    const abre = !m.classList.contains("abierto");
+    m.classList.toggle("abierto", abre); b.setAttribute("aria-expanded", String(abre)); b.setAttribute("aria-label", abre ? "Cerrar menú" : "Abrir menú");
+  });
+  document.addEventListener("keydown", e => { if(e.key === "Escape") cerrar(); });
+  document.addEventListener("click", e => { if(!m.contains(e.target) && !b.contains(e.target)) cerrar(); });
+})();
+</script>
 </body>
 </html>
-
