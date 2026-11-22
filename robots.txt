@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://servicios.alvaroseijomayoral.com/sitemap.xml
